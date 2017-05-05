@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505114247) do
+ActiveRecord::Schema.define(version: 20170505114443) do
 
   create_table "location_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "tracking_id", null: false
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20170505114247) do
     t.datetime "created_at"
     t.index ["created_at"], name: "index_location_logs_on_created_at"
     t.index ["tracking_id"], name: "index_location_logs_on_tracking_id"
+  end
+
+  create_table "observations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "tracking_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tracking_id"], name: "index_observations_on_tracking_id"
+    t.index ["user_id"], name: "index_observations_on_user_id"
   end
 
   create_table "trackings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -38,5 +47,7 @@ ActiveRecord::Schema.define(version: 20170505114247) do
   end
 
   add_foreign_key "location_logs", "trackings"
+  add_foreign_key "observations", "trackings"
+  add_foreign_key "observations", "users"
   add_foreign_key "trackings", "users", column: "owner_id"
 end
