@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    name "MyString"
-    gcm_token "MyString"
+    name Faker::Name.name
+    gcm_token Faker::Crypto.sha256
   end
 end
