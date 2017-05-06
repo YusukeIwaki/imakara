@@ -1,9 +1,8 @@
 FactoryGirl.define do
   factory :location_log do
-    tracking nil
-    lat "9.99"
-    lon "9.99"
-    accuracy "9.99"
-    created_at "2017-05-05 11:42:47"
+    association :tracking, factory: :tracking
+    lat { Faker::Address.latitude }
+    lon { Faker::Address.longitude }
+    accuracy { Faker::Number.normal(100, 100).abs }
   end
 end

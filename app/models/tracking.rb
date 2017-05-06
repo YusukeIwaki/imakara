@@ -1,7 +1,8 @@
 class Tracking < ApplicationRecord
   belongs_to :owner, class_name: User.to_s
-  has_many :observations
+  has_many :observations, dependent: :destroy
   has_many :observers, through: :observations, source: :user
+  has_many :location_logs, dependent: :destroy
   
   before_validation :set_id_code
   

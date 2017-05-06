@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :observation do
-    tracking nil
-    user nil
+    association :tracking, factory: :tracking
+    association :user, factory: :user
   end
 end
