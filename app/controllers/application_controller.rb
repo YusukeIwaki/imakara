@@ -5,6 +5,10 @@ class ApplicationController < ActionController::API
   rescue_from BadRequestError do |err|
     render json: {}, status: :bad_request
   end
+
+  rescue_from ActiveRecord::RecordInvalid do |err|
+    render json: {}, status: :bad_request
+  end
   
   rescue_from ActiveRecord::RecordNotFound do |err|
     render json: {}, status: :not_found
