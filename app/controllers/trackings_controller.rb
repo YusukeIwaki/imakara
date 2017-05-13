@@ -29,7 +29,7 @@ class TrackingsController < ApplicationController
       created_at: location_log.created_at.to_i
     }
     
-    render json: { id: @tracking.id, location_log: json_location_log, updated_at: @tracking.updated_at.to_i }
+    render json: { id: @tracking.id_code, location_log: json_location_log, updated_at: @tracking.updated_at.to_i }
   end
   
   private
