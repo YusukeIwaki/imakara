@@ -10,6 +10,7 @@ class Trackings::ObservesController < Trackings::BaseController
     end
     
     json_observation = @observation.slice(:tracking_id, :user, :updated_at)
+    json_observation[:updated_at] = json_observation[:updated_at].to_i
     render json: json_observation, status: :ok
   end
   

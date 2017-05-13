@@ -7,6 +7,7 @@ class Trackings::LocationLogsController < Trackings::BaseController
     location_log = @tracking.location_logs.create!(location_log_params)
     
     json_location_log = location_log.slice(:id, :lat, :lon, :accuracy, :created_at)
+    json_location_log[:created_at] = json_location_log[:created_at].to_i
     render json: json_location_log, status: :created
   end
   
