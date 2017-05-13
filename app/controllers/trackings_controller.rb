@@ -21,7 +21,7 @@ class TrackingsController < ApplicationController
   
   def show
     location_log = @tracking.location_logs.recent_enough_for_cached_view.last
-    json_location_log = {
+    json_location_log = location_log.blank? ? nil : {
       id: location_log.id,
       lat: location_log.lat.to_f,
       lon: location_log.lon.to_f,
