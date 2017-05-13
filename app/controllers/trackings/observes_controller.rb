@@ -1,6 +1,4 @@
-class Trackings::ObservesController < ApplicationController
-  before_action :set_tracking
-  
+class Trackings::ObservesController < Trackings::BaseController
   def create
     ApplicationRecord.transaction do
       user = User.find_or_create_by!(user_params)
@@ -28,10 +26,5 @@ class Trackings::ObservesController < ApplicationController
   
   def user_params
     params.require(:user).permit(:name, :gcm_token)
-      .tap { |user| raise BadRequestError if user[:gcm_token].blank? }
-  end
-  
-  def set_tracking
-    @tracking = Tracking.find_by!(id_code: params[:tracking_id])
   end
 end

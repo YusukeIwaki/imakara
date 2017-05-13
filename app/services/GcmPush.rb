@@ -9,6 +9,10 @@ class GcmPush
     binding.pry
   end
   
+  def notify_latest_location_to_observers
+    binding.pry
+  end
+  
   private
   
   def recently_updated?

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :trackings, only: [:show, :create] do
     scope module: :trackings do
       resource :observe, only: [:create, :destroy]
+      resources :location_logs, only: [:create]
     end
   end
 end
