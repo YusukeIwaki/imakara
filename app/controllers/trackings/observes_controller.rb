@@ -9,8 +9,7 @@ class Trackings::ObservesController < Trackings::BaseController
       @observation.save!(touch: false)
     end
     
-    json_observation = @observation.slice(:tracking_id, :user, :updated_at)
-    json_observation[:updated_at] = json_observation[:updated_at].to_i
+    json_observation = @observation.decorate.slice(:tracking_id, :user, :updated_at)
     render json: json_observation, status: :ok
   end
   

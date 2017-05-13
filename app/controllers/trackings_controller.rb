@@ -20,16 +20,12 @@ class TrackingsController < ApplicationController
   end
   
   def show
-    location_log = @tracking.location_logs.recent_enough_for_cached_view.last
-    json_location_log = location_log.blank? ? nil : {
-      id: location_log.id,
-      lat: location_log.lat.to_f,
-      lon: location_log.lon.to_f,
-      accuracy: location_log.accuracy.to_f,
-      created_at: location_log.created_at.to_i
-    }
+    location_log = @tracking.location_logs.recent_enough_for_cached_view.last.try(:decorate)
+    json_location_log = location_log.try(:attributes_for_json_response)
+
+    tracking = @tracking.decorate
     
-    render json: { id: @tracking.id_code, location_log: json_location_log, updated_at: @tracking.updated_at.to_i }
+    render json: { id: tracking.id_code, location_log: json_location_log, updated_at: tracking.updated_at }
   end
   
   private
