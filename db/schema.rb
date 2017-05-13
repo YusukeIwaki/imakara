@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505153748) do
+ActiveRecord::Schema.define(version: 20170513115553) do
 
   create_table "location_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "tracking_id", null: false
-    t.decimal "lat", precision: 10, null: false
-    t.decimal "lon", precision: 10, null: false
-    t.decimal "accuracy", precision: 10
+    t.decimal "lat", precision: 8, scale: 6, null: false
+    t.decimal "lon", precision: 9, scale: 6, null: false
+    t.decimal "accuracy", precision: 10, scale: 6
     t.datetime "created_at"
     t.index ["created_at"], name: "index_location_logs_on_created_at"
     t.index ["tracking_id"], name: "index_location_logs_on_tracking_id"

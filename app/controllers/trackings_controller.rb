@@ -21,10 +21,15 @@ class TrackingsController < ApplicationController
   
   def show
     location_log = @tracking.location_logs.recent_enough_for_cached_view.last
-    json_location = location_log.try(:slice, :id, :lat, :lon, :accuracy, :created_at)
-    json_location[:created_at] = json_location[:created_at].to_i
+    json_location_log = {
+      id: location_log.id,
+      lat: location_log.lat.to_f,
+      lon: location_log.lon.to_f,
+      accuracy: location_log.accuracy.to_f,
+      created_at: location_log.created_at.to_i
+    }
     
-    render json: { id: @tracking.id, location: json_location, updated_at: @tracking.updated_at.to_i }
+    render json: { id: @tracking.id, location_log: json_location_log, updated_at: @tracking.updated_at.to_i }
   end
   
   private
