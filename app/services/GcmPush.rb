@@ -13,7 +13,9 @@ class GcmPush
     payload = {
       data: {
         push_type: :update_location_log,
-        tracking_id: @tracking.id_code
+        tracking: {
+          id: @tracking.id_code
+        }
       }
     }
     
