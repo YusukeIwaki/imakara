@@ -16,7 +16,9 @@ class GcmPush
         tracking: {
           id: @tracking.id_code
         }
-      }
+      },
+      collapse_key: :update_location_log,
+      priority: :high
     }
     
     response = @fcm.send(receivers, payload)
@@ -29,7 +31,8 @@ class GcmPush
       data: {
         push_type: :new_location_log,
         tracking: tracking_json
-      }
+      },
+      collapse_key: :new_location_log
     }
     
     response = @fcm.send(receivers, payload)
