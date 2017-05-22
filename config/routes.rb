@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :trackings, only: [:show, :create] do
+  resources :trackings, only: [:show, :create], defaults: { format: :json } do
     scope module: :trackings do
       resource :observe, only: [:create, :destroy]
       resources :location_logs, only: [:create]
