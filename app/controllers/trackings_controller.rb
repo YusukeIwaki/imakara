@@ -4,8 +4,8 @@ require 'googlestaticmap'
 class TrackingsController < ApplicationController
   include ActionController::MimeResponds
   
-  before_action :set_tracking, only: [:show]
-  after_action :request_updating_location_log, only: [:show]
+  before_action :set_tracking, only: [:show, :location]
+  after_action :request_updating_location_log, only: [:show, :location]
 
   def create
     user_params = params.require(:user).permit(:name, :gcm_token)
@@ -24,22 +24,19 @@ class TrackingsController < ApplicationController
   
   def show
     location_log = @tracking.location_logs.recent_enough_for_cached_view.last.try(:decorate)
+    json_location_log = location_log.try(:attributes_for_json_response)
 
-    respond_to { |format|
-      format.png {
-        if location_log.present?
-          send_data gmap(location_log.lat, location_log.lon, location_log.accuracy).get_map, type: 'image/png', disposition: 'inline' and return
-        else
-          render nothing: true, status: :no_content
-        end
-      }
-      format.json {
-        json_location_log = location_log.try(:attributes_for_json_response)
-    
-        tracking = @tracking.decorate
-        render json: { id: tracking.id_code, location_log: json_location_log, updated_at: tracking.updated_at }
-      }
-    }
+    tracking = @tracking.decorate
+    render json: { id: tracking.id_code, location_log: json_location_log, updated_at: tracking.updated_at }
+  end
+  
+  def location
+    location_log = @tracking.location_logs.recent_enough_for_cached_view.last.try(:decorate)
+    if location_log.present?
+      send_data gmap(location_log.lat, location_log.lon, location_log.accuracy).get_map, type: 'image/png', disposition: 'inline' and return
+    else
+      render nothing: true, status: :no_content
+    end
   end
   
   private
