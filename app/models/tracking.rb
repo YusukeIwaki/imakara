@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: trackings
+#
+#  id         :integer          not null, primary key
+#  id_code    :string(64)       not null
+#  owner_id   :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Tracking < ApplicationRecord
   belongs_to :owner, class_name: User.to_s
   has_many :observations, dependent: :destroy
