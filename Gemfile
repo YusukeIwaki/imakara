@@ -8,8 +8,9 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0'
-# Use mysql2 as the database for Active Record
-gem 'mysql2'
+# Use mysql2/PostgreSQL as the database for Active Record
+gem 'mysql2', group: [:development, :test]
+gem 'pg', group: [:production]
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
