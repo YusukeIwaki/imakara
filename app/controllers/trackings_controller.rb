@@ -4,7 +4,7 @@ require 'googlestaticmap'
 class TrackingsController < ApplicationController
   include ActionController::MimeResponds
   
-  before_action :set_tracking, only: [:show, :location, :destroy]
+  before_action :set_tracking, only: [:show, :location, :update]
   after_action :request_updating_location_log, only: [:show, :location]
 
   def create
@@ -39,14 +39,16 @@ class TrackingsController < ApplicationController
     end
   end
   
-  def destroy
+  def update
     user_params = params.require(:user).permit(:name, :gcm_token)
     raise BadRequestError if user_params[:gcm_token].blank?
     user = User.find_by!(user_params)
 
     if @tracking.owner == user
-      @tracking.destroy
-      render nothing: true, status: :no_content
+      @tracking.refresh!
+      json_tracking = @tracking.slice(:id_code)
+      json_tracking[:id] = json_tracking.delete(:id_code)
+      render json: json_tracking, status: :ok
     else
       render nothing: true, status: :forbidden
     end

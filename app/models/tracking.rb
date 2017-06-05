@@ -15,13 +15,17 @@ class Tracking < ApplicationRecord
   has_many :observers, through: :observations, source: :user
   has_many :location_logs, dependent: :destroy
   
-  before_validation :set_id_code
+  before_validation :set_id_code, if: ->(record) { record.id_code.blank? }
+  
+  def refresh!
+    if set_id_code
+      save!
+    end
+  end
   
   private 
   
   def set_id_code
-    return true if self.id_code.present?
-    
     10.times do
       code = SecureRandom.uuid
       unless Tracking.where(id_code: code).exists? then
