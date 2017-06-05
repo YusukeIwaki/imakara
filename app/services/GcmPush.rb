@@ -26,7 +26,9 @@ class GcmPush
   end
   
   def notify_latest_location_to_observers
-    receivers = [@tracking.owner.gcm_token]
+    return if @tracking.observers.blank?
+    
+    receivers = @tracking.observers.map(&:gcm_token)
     payload = {
       data: {
         push_type: :new_location_log,
